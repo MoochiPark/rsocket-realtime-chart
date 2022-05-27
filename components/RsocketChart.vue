@@ -146,8 +146,8 @@ export default {
         this.dcStates.shift()
       }
       responses.forEach((response) => {
-        this.vols.push([response.sensingTime, response.voltage])
-        this.currents.push([response.sensingTime, response.current])
+        this.vols.push([response.sensingTime, response.voltage.toFixed(2)])
+        this.currents.push([response.sensingTime, response.current.toFixed(2)])
         this.codes.push([response.sensingTime, response.code])
         this.acStates.push([response.sensingTime, response.acState])
         this.dcStates.push([response.sensingTime, response.dcState])

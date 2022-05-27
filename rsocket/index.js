@@ -27,6 +27,7 @@ async function getLatestSensingData(n) {
   const rsocket = await getRsocket()
   return await new Promise((resolve, reject) => {
     const payloads = []
+    let received = 0
     rsocket.requestStream(
       {
         data: Buffer.from(n.toString()),
@@ -35,10 +36,13 @@ async function getLatestSensingData(n) {
       {
         onError: (e) => reject(e),
         onNext: (payload, isComplete) => {
+          received++
           payloads.push(JSON.parse(payload.data))
-          setTimeout(() => {
-            resolve(payloads)
-          })
+          if (received >= n) {
+            setTimeout(() => {
+              resolve(payloads)
+            })
+          }
         },
         onComplete: () => {},
         onExtension: () => {},
